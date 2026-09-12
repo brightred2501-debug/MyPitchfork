@@ -32,7 +32,7 @@
 发布地址通常是：
 
 ```text
-https://你的用户名.github.io/MyPitchfork/
+https://brightred2501-debug.github.io/MyPitchfork/
 ```
 
 以后推送到 `main` 分支会自动重新部署，也可以在 Actions 页面手动运行工作流。
