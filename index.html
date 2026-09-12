@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://itunes.apple.com; style-src 'self'; img-src 'self' data: blob: https://mzstatic.com https://*.mzstatic.com; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-src 'none'" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MyPitchfork</title>
+    <link rel="preload" href="./src/assets/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./src/assets/fonts/SourceSerif4-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div>
+          <h1>MyPitchfork</h1>
+        </div>
+        <div class="header-actions">
+          <span class="completion-pill" id="completion-pill" hidden></span>
+          <button class="ghost-button refresh-button" id="reset-button" title="清空当前专辑和评分" type="button">
+            <span aria-hidden="true">↻</span>
+            <span>刷新</span>
+          </button>
+          <button class="primary-button" id="download-button" title="下载 PNG" type="button">
+            <span aria-hidden="true">PNG</span>
+            <span id="download-label">下载 PNG</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="app-notice" id="app-notice" hidden></div>
+
+      <main class="workspace">
+        <div class="left-rail">
+          <section class="tool-panel">
+            <div class="section-heading">
+              <h2>专辑导入</h2>
+            </div>
+
+            <form class="search-form" id="search-form">
+              <label class="field field--grow">
+                <span>专辑名</span>
+                <input autocomplete="off" id="query-input" placeholder="OK Computer" type="search" />
+              </label>
+
+              <label class="field country-field">
+                <span>地区</span>
+                <select id="country-select">
+                  <option value="us">US</option>
+                  <option value="cn">CN</option>
+                  <option value="jp">JP</option>
+                  <option value="gb">GB</option>
+                  <option value="tw">TW</option>
+                  <option value="hk">HK</option>
+                </select>
+              </label>
+
+              <div class="search-actions">
+                <button class="primary-button search-button" id="search-button" type="submit">
+                  <span aria-hidden="true">⌕</span>
+                  <span id="search-label">搜索</span>
+                </button>
+                <button class="ghost-button manual-create-button" id="manual-create-button" title="创建空白专辑草稿" type="button">
+                  <span aria-hidden="true">＋</span>
+                  <span>手动创建</span>
+                </button>
+              </div>
+            </form>
+
+            <p class="inline-alert" id="search-alert" hidden></p>
+            <p class="muted-state" id="empty-results" hidden>没有找到匹配的专辑，请尝试其他关键词或地区。</p>
+            <div class="result-list" id="result-list" aria-label="搜索结果"></div>
+          </section>
+
+          <section class="tool-panel" id="editor-panel">
+            <div class="section-heading section-heading--split">
+              <h2>评分编辑</h2>
+              <button class="ghost-button" id="clear-button" title="清空草稿" type="button">
+                <span aria-hidden="true">↺</span>
+                <span>清空</span>
+              </button>
+            </div>
+
+            <p class="muted-state" id="editor-empty">选择专辑或手动创建后，即可开始评分。</p>
+
+            <div id="editor-fields" hidden>
+              <div class="metadata-grid">
+                <label class="field">
+                  <span>专辑显示名</span>
+                  <input id="album-name-input" type="text" />
+                </label>
+
+                <label class="field">
+                  <span>歌手 / 乐队</span>
+                  <input id="artist-name-input" type="text" />
+                </label>
+
+                <div class="field field--wide artwork-field">
+                  <span>专辑封面</span>
+                  <div class="artwork-controls">
+                    <label class="ghost-button artwork-upload-button" for="artwork-file-input">
+                      <span aria-hidden="true">↑</span>
+                      <span>上传图片</span>
+                    </label>
+                    <input accept="image/jpeg,image/png,image/webp" id="artwork-file-input" type="file" />
+                    <button class="ghost-button" id="remove-artwork-button" type="button">移除封面</button>
+                  </div>
+                  <small class="field-help" id="artwork-help"></small>
+                </div>
+
+                <label class="field score-field">
+                  <span>总评分</span>
+                  <input id="overall-score-input" inputmode="numeric" max="100" min="0" placeholder="0-100" step="1" type="number" />
+                </label>
+
+                <label class="field field--wide">
+                  <span>简单评语</span>
+                  <textarea id="comment-input" maxlength="180" rows="3"></textarea>
+                </label>
+              </div>
+
+              <div class="track-editor">
+                <div class="track-editor__toolbar">
+                  <span>曲目</span>
+                  <button class="ghost-button add-track-button" id="add-track-button" title="添加一首空曲目" type="button">
+                    <span aria-hidden="true">＋</span>
+                    <span>添加曲目</span>
+                  </button>
+                </div>
+                <div class="track-editor__head">
+                  <span>曲名</span>
+                  <span>时长</span>
+                  <span>♥</span>
+                  <span>评分</span>
+                  <span aria-hidden="true"></span>
+                </div>
+                <div class="track-editor__body" id="track-editor-body"></div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="preview-area">
+          <div class="section-heading section-heading--preview">
+            <h2>海报预览</h2>
+          </div>
+          <div class="poster-stage">
+            <article class="poster poster--empty" id="poster"></article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./src/app.js" type="module"></script>
+  </body>
+</html>
