@@ -208,7 +208,7 @@ function drawCanvasTrackList(ctx, draft, rect, theme) {
 }
 
 function drawCanvasKicker(ctx, centerX, y, theme) {
-  const brand = "BERLEY";
+  const brand = "BELREY";
   const label = " ALBUM REVIEW";
   ctx.save();
   ctx.font = canvasFont(700, theme.kickerSize, theme.fonts.sans);
@@ -217,9 +217,10 @@ function drawCanvasKicker(ctx, centerX, y, theme) {
   ctx.font = canvasFont(500, theme.kickerSize, theme.fonts.sans);
   const startX = centerX - (brandWidth + ctx.measureText(label).width) / 2;
   ctx.textAlign = "left";
-  ctx.fillStyle = theme.inkSoft;
+  ctx.fillStyle = theme.accentRed;
   ctx.font = canvasFont(700, theme.kickerSize, theme.fonts.sans);
   ctx.fillText(brand, startX, baseline);
+  ctx.fillStyle = theme.inkSoft;
   ctx.font = canvasFont(500, theme.kickerSize, theme.fonts.sans);
   ctx.fillText(label, startX + brandWidth, baseline);
   ctx.restore();

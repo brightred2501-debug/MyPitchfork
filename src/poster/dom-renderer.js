@@ -25,7 +25,7 @@ export function renderPoster(poster, draft) {
   header.className = "poster-header";
   const kicker = document.createElement("p");
   kicker.className = "poster-kicker";
-  appendText(kicker, "span", "BERLEY", "poster-kicker__brand");
+  appendText(kicker, "span", "BELREY", "poster-kicker__brand");
   kicker.appendChild(document.createTextNode(" Album Review"));
   header.appendChild(kicker);
   appendText(header, "h2", draft.albumName || "Untitled Album");
